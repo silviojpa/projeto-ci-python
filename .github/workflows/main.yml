@@ -51,8 +51,10 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: 🧪 Executar Testes Unitarios (Pytest)
-        # O Pytest executa os testes que estao em tests/
-        # A flag --cov mostra a cobertura de testes (pratica de excelencia).
+          # CONFIGURAÇÃO DE AMBIENTE:
+          # Exporta o diretório atual do GitHub Runner (que é a raiz do projeto)
+          # para a variável PYTHONPATH. Isso permite que o Python encontre 'app.py'.
         run: |
           echo "Executando testes unitários..."
+          export PYTHONPATH=$PWD:$PYTHONPATH
           pytest

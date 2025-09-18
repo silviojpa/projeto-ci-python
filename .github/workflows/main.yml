@@ -1,0 +1,58 @@
+name: CI de Qualidade e Testes em Python
+
+on:
+  push:
+    branches: [ "main" ] # Roda em todo 'push' para a branch principal
+  pull_request:
+    branches: [ "main" ] # Roda em todo 'pull request' para a branch principal
+
+jobs:
+  qualidade_de_codigo:
+    # 1. Este Job se concentra na qualidade e estilo do código (Linting)
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: ⬇️ Checkout do Codigo
+        uses: actions/checkout@v4
+
+      - name: 🐍 Configurar Ambiente Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: 🛠️ Instalar Dependencias (Flask e Flake8)
+        # Instalamos Flask, pytest e flake8
+        run: pip install -r requirements.txt
+
+      - name: 🧹 Executar Linting (Flake8)
+        # O Flake8 verifica se o codigo segue as diretrizes de estilo (PEP 8).
+        # Se houver erros, este passo falha e interrompe o pipeline.
+        run: |
+          echo "Verificando qualidade do código com Flake8..."
+          # ignore: E501 (linha muito longa, comum em exemplos)
+          flake8 . --count --exit-zero --exclude=tests/* --max-complexity=10 --max-line-length=120 --statistics
+
+  testes_funcionais:
+    # 2. Este Job se concentra na funcionalidade e logica do codigo
+    runs-on: ubuntu-latest
+    # Define que este Job SÓ PODE rodar se o Job de qualidade de codigo for bem-sucedido
+    needs: qualidade_de_codigo 
+    
+    steps:
+      - name: ⬇️ Checkout do Codigo
+        uses: actions/checkout@v4
+      
+      - name: 🐍 Configurar Ambiente Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: 🛠️ Instalar Dependencias (Flask e Pytest)
+        run: pip install -r requirements.txt
+
+      - name: 🧪 Executar Testes Unitarios (Pytest)
+        # O Pytest executa os testes que estao em tests/
+        # A flag --cov mostra a cobertura de testes (pratica de excelencia).
+        run: |
+          echo "Executando testes unitários..."
+          pytest

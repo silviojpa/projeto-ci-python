@@ -2,9 +2,12 @@ name: CI de Qualidade e Testes em Python
 
 on:
   push:
-    branches: [ "main" ] # Roda em todo 'push' para a branch principal
+    branches: 
+      - main
+      - 'feature/**' # Aciona em 'feature/containerization', 'feature/outra-coisa', etc.
   pull_request:
-    branches: [ "main" ] # Roda em todo 'pull request' para a branch principal
+    # Por padrão, PRs para QUALQUER branch rodam o Action.
+    branches: [ "main" ]
 
 jobs:
   qualidade_de_codigo:

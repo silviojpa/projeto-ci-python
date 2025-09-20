@@ -58,3 +58,20 @@ jobs:
           echo "Executando testes unitários..."
           export PYTHONPATH=$PWD:$PYTHONPATH
           pytest
+
+  build_docker_image:
+      runs-on: ubuntu-latest
+      # Este Job so roda se os Jobs de Testes e Qualidade passarem!
+      needs: testes_funcionais 
+      
+      steps:
+        - name: ⬇️ Checkout do Codigo
+          uses: actions/checkout@v4
+          
+        - name: 🐳 Build da Imagem Docker
+          # O comando docker build constroi a imagem usando o Dockerfile na raiz.
+          # A flag -t da um nome e uma tag para a imagem.
+          run: |
+            echo "Construindo imagem docker..."
+            docker build -t projeto-ci-python:latest .
+            echo "Build concluído! Imagem: projeto-ci-python:latest"

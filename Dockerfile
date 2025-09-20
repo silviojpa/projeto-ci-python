@@ -18,5 +18,8 @@ EXPOSE 5000
 
 # Define o comando que sera executado quando o container iniciar
 # Atenção usamos Gunicorn (ou outro WSGI) para producao, nao o 'app.run()' nativo do Flask
-CMD ["python", "app.py"] 
+# CMD ["python", "app.py"] Antigo
+# Define o comando que sera executado quando o container iniciar
+# ATENÇÃO: Corrigido para garantir que o Flask inicialize o servidor
+CMD ["python", "-m", "flask", "run", "--host=0.0.0.0", "--port=5000"]
 # Nota: Para producao real, voce instalaria Gunicorn (ou uvicorn/waitress) e o usaria aqui.

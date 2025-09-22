@@ -5,7 +5,7 @@ app = Flask(__name__)
 @app.route('/')
 def hello():
     # Retorna uma mensagem simples
-    return "Hello, DevOps World! A aplicacao esta funcionando e esta UP UP."
+    return "Hello, DevOps World! A aplicacao esta funcionando e esta UP esse projeto vai me ajudar a vencer."
 
 if __name__ == '__main.0.0.0':
     # Usamos uma porta comum para exemplos locais

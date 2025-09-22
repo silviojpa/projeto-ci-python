@@ -12,4 +12,4 @@ def test_homepage(client):
     """Testa se a rota '/' retorna a mensagem correta e status 200."""
     response = client.get('/')
     assert response.status_code == 200
-    assert b"Hello, DevOps World! A aplicacao esta funcionando e esta UP UP." in response.data
+    assert b"Hello, DevOps World! A aplicacao esta funcionando e esta UP e esse projeto vai me ajudar a vencer." in response.data
